@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController() //원하는 뷰컨트롤러로 변경하기
+        window?.rootViewController = MainPageViewController()
         window?.makeKeyAndVisible()
     }
 
