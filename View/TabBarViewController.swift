@@ -53,13 +53,13 @@ extension TabBarViewController {
         
         // 탭 바 컨트롤러에 연결할 뷰 컨트롤러 생성
         let viewController1 = BookmarkPageViewController()
-        viewController1.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "tab1_icon"), selectedImage: UIImage(named: "tab1_selected"))
+        viewController1.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "tap1_icon"), selectedImage: UIImage(named: "tap1_selected"))
         
         let viewController2 = MainPageViewController()
-        viewController2.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "tab2_icon"), selectedImage: UIImage(named: "tab2_selected"))
+        viewController2.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "tap2_icon"), selectedImage: UIImage(named: "tap2_selected"))
         
         let viewController3 = BookInfoPageViewController()
-        viewController3.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "tab3_icon"), selectedImage: UIImage(named: "tab3_selected"))
+        viewController3.tabBarItem = UITabBarItem(title: "", image: UIImage(named: "tap3_icon"), selectedImage: UIImage(named: "tap3_selected"))
         
         // 뷰 컨트롤러를 탭 바 컨트롤러에 추가
         self.viewControllers = [viewController1, viewController2, viewController3]

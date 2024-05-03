@@ -19,7 +19,7 @@ class BottomCollectionViewCell: UICollectionViewCell {
         
         setupCell()
         setupImageView()
-        setupstackView()
+        setupStackView()
         
     }
     
@@ -60,7 +60,7 @@ extension BottomCollectionViewCell {
 
 // MARK: - BottomCollectionView Label UI
 extension BottomCollectionViewCell {
-    func setupstackView() {
+    func setupStackView() {
         let outerStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
@@ -84,24 +84,24 @@ extension BottomCollectionViewCell {
         
         let titleLabel: UILabel = {
             let label = UILabel()
-            label.text = "test"
-            label.font = UIFont.systemFont(ofSize: 9, weight: .semibold)
+            label.text = "세이노의 가르침"
+            label.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
             label.textColor = UIColor.myBlack
             return label
         }()
         
         let priceLabel: UILabel = {
             let label = UILabel()
-            label.text = "test"
-            label.font = UIFont.systemFont(ofSize: 7, weight: .semibold)
+            label.text = "14,000"
+            label.font = UIFont.systemFont(ofSize: 9, weight: .semibold)
             label.textColor = UIColor.myBlack
             return label
         }()
         
         let authorLabel: UILabel = {
             let label = UILabel()
-            label.text = "test"
-            label.font = UIFont.systemFont(ofSize: 7, weight: .semibold)
+            label.text = "세이노"
+            label.font = UIFont.systemFont(ofSize: 9, weight: .semibold)
             label.textColor = UIColor.myGray
             return label
         }()

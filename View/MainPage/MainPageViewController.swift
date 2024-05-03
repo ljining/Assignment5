@@ -21,6 +21,7 @@ class MainPageViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        
         [searchBar, topCollectionView, bottomCollectionView].forEach {
             view.addSubview($0)
         }
