@@ -53,15 +53,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		45AA22672BE2587600433D1E /* View */ = {
+		4578BE5E2BE4FA58004B6D86 /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
 				45AA22682BE2601000433D1E /* MainPageViewController.swift */,
 				45AA226D2BE3823400433D1E /* TopCollectionViewCell.swift */,
 				45AA226F2BE3823F00433D1E /* BottomCollectionViewCell.swift */,
-				45AA22712BE4032400433D1E /* TabBarViewController.swift */,
+			);
+			path = MainPage;
+			sourceTree = "<group>";
+		};
+		4578BE5F2BE4FA70004B6D86 /* BookInfoPage */ = {
+			isa = PBXGroup;
+			children = (
 				4578BE5A2BE474F0004B6D86 /* BookInfoPageViewController.swift */,
+			);
+			path = BookInfoPage;
+			sourceTree = "<group>";
+		};
+		4578BE602BE4FA87004B6D86 /* BookmarkPage */ = {
+			isa = PBXGroup;
+			children = (
 				4578BE5C2BE47510004B6D86 /* BookmarkPageViewController.swift */,
+			);
+			path = BookmarkPage;
+			sourceTree = "<group>";
+		};
+		45AA22672BE2587600433D1E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4578BE5E2BE4FA58004B6D86 /* MainPage */,
+				4578BE5F2BE4FA70004B6D86 /* BookInfoPage */,
+				4578BE602BE4FA87004B6D86 /* BookmarkPage */,
+				45AA22712BE4032400433D1E /* TabBarViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
