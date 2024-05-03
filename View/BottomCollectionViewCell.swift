@@ -17,7 +17,10 @@ class BottomCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setupCellUI()
+        setupCell()
+        setupImageView()
+        setupstackView()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -25,16 +28,107 @@ class BottomCollectionViewCell: UICollectionViewCell {
     }
 }
 
-
+// MARK: - BottomCollectionView Cell UI
 extension BottomCollectionViewCell {
-    func setupCellUI() {
-        self.backgroundColor = .myOrange
-        self.layer.cornerRadius = 10
-        self.layer.masksToBounds = false
+    func setupCell() {
+        self.backgroundColor = .clear
+    }
+}
+
+
+// MARK: - BottomCollectionView Image UI
+extension BottomCollectionViewCell {
+    func setupImageView() {
         
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOffset = CGSize(width: 3, height: 3)
-        self.layer.shadowOpacity = 0.1
-        self.layer.shadowRadius = 4
+        bottomImageView.backgroundColor = .myOrange
+        bottomImageView.layer.cornerRadius = 10
+        bottomImageView.layer.masksToBounds = false
+        
+        bottomImageView.layer.shadowColor = UIColor.black.cgColor
+        bottomImageView.layer.shadowOffset = CGSize(width: 3, height: 3)
+        bottomImageView.layer.shadowOpacity = 0.1
+        bottomImageView.layer.shadowRadius = 4
+        
+        bottomImageView.snp.makeConstraints { make in
+            make.width.equalTo(123)
+            make.height.equalTo(182)
+            
+            
+        }
+    }
+}
+
+// MARK: - BottomCollectionView Label UI
+extension BottomCollectionViewCell {
+    func setupstackView() {
+        let outerStackView: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .vertical
+            stackView.spacing = 7
+            return stackView
+        }()
+        
+        let innerStackView1: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .horizontal
+            stackView.spacing = 2
+            return stackView
+        }()
+        
+        let innerStackView2: UIStackView = {
+            let stackView = UIStackView()
+            stackView.axis = .vertical
+            stackView.spacing = 1
+            return stackView
+        }()
+        
+        let titleLabel: UILabel = {
+            let label = UILabel()
+            label.text = "test"
+            label.font = UIFont.systemFont(ofSize: 9, weight: .semibold)
+            label.textColor = UIColor.myBlack
+            return label
+        }()
+        
+        let priceLabel: UILabel = {
+            let label = UILabel()
+            label.text = "test"
+            label.font = UIFont.systemFont(ofSize: 7, weight: .semibold)
+            label.textColor = UIColor.myBlack
+            return label
+        }()
+        
+        let authorLabel: UILabel = {
+            let label = UILabel()
+            label.text = "test"
+            label.font = UIFont.systemFont(ofSize: 7, weight: .semibold)
+            label.textColor = UIColor.myGray
+            return label
+        }()
+        
+        contentView.addSubview(outerStackView)
+        outerStackView.addArrangedSubview(bottomImageView)
+        outerStackView.addArrangedSubview(innerStackView2)
+        
+        innerStackView1.addArrangedSubview(titleLabel)
+        innerStackView1.addArrangedSubview(priceLabel)
+        innerStackView2.addArrangedSubview(innerStackView1)
+        innerStackView2.addArrangedSubview(authorLabel)
+        
+        outerStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        }
+        
+        innerStackView1.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(2) // 원하는 왼쪽 간격 설정
+            make.trailing.equalToSuperview().inset(3) // 원하는 오른쪽 간격 설정
+        }
+        
+        innerStackView2.snp.makeConstraints { make in
+            make.top.equalTo(bottomImageView.snp.bottom).offset(7)
+            make.leading.equalToSuperview().offset(2) // 원하는 왼쪽 간격 설정
+            make.trailing.equalToSuperview().inset(3) // 원하는 오른쪽 간격 설정
+        }
+        
     }
 }

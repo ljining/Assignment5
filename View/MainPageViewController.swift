@@ -17,10 +17,6 @@ class MainPageViewController: UIViewController {
     let topCollectionViewCell = TopCollectionViewCell()
     let bottomColletctionViewCell = BottomCollectionViewCell()
     
-    let titleLabel = UILabel()
-    let authorLabel = UILabel()
-    let priceLabel = UILabel()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -147,5 +143,15 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
 }
 
 extension MainPageViewController: UICollectionViewDelegateFlowLayout {
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == topCollectionView {
+            let width: CGFloat = 123
+            let height: CGFloat = 182
+            return CGSize(width: width, height: height)
+        } else {
+            let width: CGFloat = 123
+            let height: CGFloat = 212
+            return CGSize(width: width, height: height)
+        }
+    }
 }
