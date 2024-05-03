@@ -11,11 +11,15 @@ import SnapKit
 class MainPageViewController: UIViewController {
     
     let searchBar = UISearchBar()
+    
     let topCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let bottomCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    
     let topCollectionViewCell = TopCollectionViewCell()
     let bottomColletctionViewCell = BottomCollectionViewCell()
+    
+    let titleLabel = UILabel()
+    let authorLabel = UILabel()
+    let priceLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,7 +118,7 @@ extension MainPageViewController {
         bottomCollectionView.snp.makeConstraints { make in
             make.top.equalTo(topCollectionView.snp.bottom).offset(67)
             make.leading.equalToSuperview().offset(27.5)
-            make.size.equalTo(CGSize(width: 393, height: 182))
+            make.size.equalTo(CGSize(width: 393, height: 212))
         }
     }
     
