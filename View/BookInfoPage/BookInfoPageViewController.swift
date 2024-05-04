@@ -154,10 +154,6 @@ extension BookInfoPageViewController {
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = 10
-            imageView.layer.shadowColor = UIColor.black.cgColor
-            imageView.layer.shadowOffset = CGSize(width: 3, height: 3)
-            imageView.layer.shadowOpacity = 0.1
-            imageView.layer.shadowRadius = 4
             return imageView
         }()
         

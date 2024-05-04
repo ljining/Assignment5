@@ -14,6 +14,7 @@ class MainPageViewController: UIViewController {
     
     let topCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let bottomCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
     let topCollectionViewCell = TopCollectionViewCell()
     let bottomColletctionViewCell = BottomCollectionViewCell()
     
@@ -159,7 +160,7 @@ extension MainPageViewController {
     
 }
 
-// MARK: - CollectionView Event
+// MARK: - CollectionView UI (Delegate, DataSource, FlowLayout)
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == topCollectionView {
