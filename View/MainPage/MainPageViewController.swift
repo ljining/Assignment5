@@ -68,7 +68,7 @@ extension MainPageViewController: UISearchBarDelegate {
     
 }
 
-// MARK: - Label UI
+// MARK: - subtitleLabels UI
 extension MainPageViewController {
     
     private func setupSubtitleLabels() {
