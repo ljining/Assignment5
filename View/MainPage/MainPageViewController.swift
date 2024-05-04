@@ -26,8 +26,9 @@ class MainPageViewController: UIViewController {
             view.addSubview($0)
         }
         
-        setupCollectionView()
         setupSearchBarUI()
+        setupSubtitleLabels()
+        setupCollectionView()
     }
     
 }
@@ -66,6 +67,43 @@ extension MainPageViewController: UISearchBarDelegate {
     }
     
 }
+
+// MARK: - Label UI
+extension MainPageViewController {
+    
+    private func setupSubtitleLabels() {
+        let recentBook: UILabel = {
+            let label = UILabel()
+            label.text = "최근 본 책"
+            label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+            label.textColor = UIColor.myBlack
+            return label
+        }()
+        
+        let searchResult: UILabel = {
+            let label = UILabel ()
+            label.text = "검색 결과"
+            label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+            label.textColor = UIColor.myBlack
+            return label
+        }()
+        
+        [recentBook, searchResult].forEach {
+            view.addSubview($0)
+        }
+        
+        recentBook.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(178)
+            make.leading.equalToSuperview().offset(29)
+        }
+        
+        searchResult.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(427)
+            make.leading.equalToSuperview().offset(29)
+        }
+    }
+}
+
 
 //MARK: - CollectionView UI
 extension MainPageViewController {
