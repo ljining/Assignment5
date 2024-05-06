@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class BookInfoPageViewController: UIViewController {
     
@@ -15,7 +16,7 @@ class BookInfoPageViewController: UIViewController {
         view.backgroundColor = .white
         
         backgroundView()
-        setupStackView()
+        setupStack()
         setupTopLabel()
         setupBookCover()
         setupAuthorLabel()
@@ -29,7 +30,7 @@ extension BookInfoPageViewController {
     
     // MARK: - Background UI
     
-    func backgroundView() {
+    private func backgroundView() {
         
         let backgroundImageView: UIImageView = {
             let imageView = UIImageView(image: UIImage(named: "bookCover"))
@@ -58,7 +59,7 @@ extension BookInfoPageViewController {
     
     // MARK: - TopStackView UI
     
-    func setupBookMarkButton() -> UIButton {
+    private func setupBookMarkButton() -> UIButton {
         let button = UIButton()
         button.setImage(UIImage(named: "bookMark"), for: .normal)
         button.setImage(UIImage(named: "tap1_selected"), for: .selected)
@@ -71,7 +72,7 @@ extension BookInfoPageViewController {
         sender.isSelected = !sender.isSelected
     }
     
-    func setupInfoLabel() -> UILabel {
+    private func setupInfoLabel() -> UILabel {
         let label = UILabel()
         label.text = "Info"
         label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
@@ -83,35 +84,37 @@ extension BookInfoPageViewController {
         return label
     }
     
-    func setupStackView() {
+    private func setupStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 286
+        return stackView
+    }
+    
+    private func setupStack() {
         
         let bookMarkButton = setupBookMarkButton()
         let infoLabel = setupInfoLabel()
+        let stackView = setupStackView()
         
-        let topStackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.spacing = 286
-            return stackView
-        }()
-        
-        view.addSubview(topStackView)
+        view.addSubview(stackView)
         [infoLabel, bookMarkButton].forEach {
-            topStackView.addArrangedSubview($0)
+            stackView.addArrangedSubview($0)
         }
         
-        topStackView.snp.makeConstraints { make in
+        stackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(88)
             make.leading.equalToSuperview().offset(34)
             make.trailing.equalToSuperview().inset(34)
             make.height.equalTo(19)
         }
+        
     }
     
     
     // MARK: - Title/Price Label UI
     
-    func setupTopLabel() {
+    private func setupTopLabel() {
         
         let titleLabel: UILabel = {
             let label = UILabel()
@@ -147,7 +150,7 @@ extension BookInfoPageViewController {
     
     // MARK: - BookCover Iamge UI
     
-    func setupBookCover() {
+    private func setupBookCover() {
         
         let bookCoverImageView: UIImageView = {
             let imageView = UIImageView(image: UIImage(named: "bookCover"))
@@ -171,7 +174,7 @@ extension BookInfoPageViewController {
     
     // MARK: - Author Label
     
-    func setupAuthorLabel() {
+    private func setupAuthorLabel() {
         
         let authorLabel: UILabel = {
             let label = UILabel()
@@ -221,8 +224,8 @@ extension BookInfoPageViewController {
         
     }
     
-    
-    func setupSummaryLabel() {
+    // MARK: - SummaryLabel()
+    private func setupSummaryLabel() {
         
         let summaryScroll: UIScrollView = {
             let scrollView = UIScrollView()
@@ -266,7 +269,6 @@ extension BookInfoPageViewController {
             make.top.leading.trailing.bottom.equalToSuperview()
             make.width.equalTo(summaryScroll)
         }
-        
         
     }
     

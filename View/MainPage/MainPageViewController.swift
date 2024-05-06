@@ -10,8 +10,6 @@ import SnapKit
 
 class MainPageViewController: UIViewController {
     
-    let searchBar = UISearchBar()
-    
     let topCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     let bottomCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     
@@ -23,7 +21,7 @@ class MainPageViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        [searchBar, topCollectionView, bottomCollectionView].forEach {
+        [topCollectionView, bottomCollectionView].forEach {
             view.addSubview($0)
         }
         
@@ -39,25 +37,32 @@ extension MainPageViewController: UISearchBarDelegate {
     
     func setupSearchBarUI() {
         
-        searchBar.backgroundImage = UIImage()
-        searchBar.searchTextField.backgroundColor = UIColor.white
-        searchBar.layer.cornerRadius = 20
-        searchBar.layer.masksToBounds = true
-        searchBar.layer.shadowColor = UIColor.black.cgColor
-        searchBar.layer.shadowOffset = CGSize(width: 2, height: 2)
-        searchBar.layer.shadowOpacity = 0.1
-        searchBar.layer.shadowRadius = 2
-        
-        if let textField = searchBar.value(forKey: "searchField") as? UITextField {
-            if let iconView = textField.leftView as? UIImageView {
-                
-                textField.layer.cornerRadius = 20
-                textField.clipsToBounds = true
-                
-                iconView.image = iconView.image?.withRenderingMode(.alwaysTemplate)
-                iconView.tintColor = UIColor.myOrange
+        let searchBar: UISearchBar = {
+            
+            let searchBar = UISearchBar()
+            searchBar.backgroundImage = UIImage()
+            searchBar.searchTextField.backgroundColor = UIColor.white
+            searchBar.layer.cornerRadius = 20
+            searchBar.layer.masksToBounds = true
+            searchBar.layer.shadowColor = UIColor.black.cgColor
+            searchBar.layer.shadowOffset = CGSize(width: 2, height: 2)
+            searchBar.layer.shadowOpacity = 0.1
+            searchBar.layer.shadowRadius = 2
+            
+            if let textField = searchBar.value(forKey: "searchField") as? UITextField {
+                if let iconView = textField.leftView as? UIImageView {
+                    
+                    textField.layer.cornerRadius = 20
+                    textField.clipsToBounds = true
+                    
+                    iconView.image = iconView.image?.withRenderingMode(.alwaysTemplate)
+                    iconView.tintColor = UIColor.myOrange
+                }
             }
-        }
+            return searchBar
+        }()
+        
+        view.addSubview(searchBar)
         
         searchBar.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(95)
@@ -129,7 +134,7 @@ extension MainPageViewController {
         topCollectionView.showsHorizontalScrollIndicator = false
         
         topCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(67)
+            make.top.equalToSuperview().offset(205)
             make.leading.equalToSuperview().offset(27.5)
             make.size.equalTo(CGSize(width: 393, height: 182))
         }
@@ -177,6 +182,14 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as! BottomCollectionViewCell
             return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == topCollectionView {
+            tabBarController?.selectedIndex = 2
+        } else {
+            tabBarController?.selectedIndex = 2
         }
     }
     

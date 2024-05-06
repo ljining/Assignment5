@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class BookmarkPageViewController: UIViewController {
     
@@ -13,8 +14,6 @@ class BookmarkPageViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
-        
         
         setupButtons()
         bookList()
@@ -26,9 +25,9 @@ class BookmarkPageViewController: UIViewController {
 // MARK: - AllDeleteButton/AddButton UI
 extension BookmarkPageViewController {
     
-    func setupButtons() {
+    private func setupButtons() {
         
-        let labelStackView: UIStackView = {
+        let buttonStackView: UIStackView = {
             let stackView = UIStackView()
             stackView.spacing = CGFloat(254)
             return stackView
@@ -50,13 +49,13 @@ extension BookmarkPageViewController {
             return button
         }()
         
-        view.addSubview(labelStackView)
+        view.addSubview(buttonStackView)
         
         [allDeleteButton, addButton].forEach {
-            labelStackView.addArrangedSubview($0)
+            buttonStackView.addArrangedSubview($0)
         }
         
-        labelStackView.snp.makeConstraints { make in
+        buttonStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(88)
             make.leading.equalToSuperview().offset(34)
         }
@@ -67,7 +66,7 @@ extension BookmarkPageViewController {
 // MARK: - BookList UI
 extension BookmarkPageViewController {
     
-    func bookList() {
+    private func bookList() {
         
         let bookListCollectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
@@ -92,7 +91,6 @@ extension BookmarkPageViewController {
             make.width.equalTo(323)
         }
         
-        
     }
     
 }
@@ -107,6 +105,10 @@ extension BookmarkPageViewController: UICollectionViewDataSource, UICollectionVi
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookmarkListCollectionViewCell.identifier, for: indexPath) as! BookmarkListCollectionViewCell
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        tabBarController?.selectedIndex = 2
+    }
 }
 
 // MARK: - CollectionView FlowLayout
@@ -115,7 +117,7 @@ extension BookmarkPageViewController: UICollectionViewDelegateFlowLayout {
             let width: CGFloat = 393
             let height: CGFloat = 182
             return CGSize(width: width, height: height)
-        }
+    }
 }
 
 
