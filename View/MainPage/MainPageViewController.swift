@@ -50,15 +50,20 @@ extension MainPageViewController: UISearchBarDelegate {
             searchBar.layer.shadowRadius = 2
             
             if let textField = searchBar.value(forKey: "searchField") as? UITextField {
-                if let iconView = textField.leftView as? UIImageView {
-                    
+                textField.leftView = nil
                     textField.layer.cornerRadius = 20
                     textField.clipsToBounds = true
-                    
-                    iconView.image = iconView.image?.withRenderingMode(.alwaysTemplate)
-                    iconView.tintColor = UIColor.myOrange
-                }
             }
+            
+            let iconImageView = UIImageView(image: UIImage(named: "search_icon"))
+            iconImageView.contentMode = .scaleAspectFit
+            searchBar.addSubview(iconImageView)
+            
+            iconImageView.snp.makeConstraints { make in
+                make.top.equalTo(searchBar.snp.top).offset(23)
+                make.leading.equalTo(searchBar.snp.leading).offset(23)
+            }
+            
             return searchBar
         }()
         
@@ -68,7 +73,7 @@ extension MainPageViewController: UISearchBarDelegate {
             make.top.equalToSuperview().offset(95)
             make.leading.equalToSuperview().offset(27.5)
             make.trailing.equalToSuperview().inset(27.5)
-            make.height.equalTo(43)
+            make.height.equalTo(60)
         }
     }
     
