@@ -12,7 +12,7 @@ class NetworkManager{
     static let shared = NetworkManager()
     private init() {}
     
-    func fetchBookAPI(query: String, completion: @escaping (Result<BookModel, Error>) -> Void) {
+    func fetchBookAPI(query: String, completion: @escaping (Result<BookData, Error>) -> Void) {
         
         // REST API key
         let restApiKey = "3e206b7dcb54a5bb0ea265da1ae61014"
@@ -39,19 +39,23 @@ class NetworkManager{
                 return
             }
             //데이터 파싱
-            guard let data = data else { return }
-            print(String(data: data, encoding: .utf8) ?? "")
-             
-            
-            guard let bookModel = try? JSONDecoder().decode(BookModel.self, from: data) else {
-                print("Decoding Error")
-                return
+            do {
+                guard let data = data else {
+                    completion(.failure(NSError(domain: "Data is nil", code: 0, userInfo: nil)))
+                    return
+                }
+                
+                let decoder = JSONDecoder()
+                let bookData = try decoder.decode(BookData.self, from: data)
+                print("Book Research Result", bookData)
+                completion(.success(bookData))
+            } catch {
+                print("Decoding Error:", error)
+                completion(.failure(error))
             }
-            print("Book Research Result", bookModel)
         }
         
         task.resume()
- 
     }
     
 }

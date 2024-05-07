@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BookModel: Decodable {
+struct BookData: Decodable {
     
     let documents: [Document]
     let meta: Meta
@@ -22,6 +22,8 @@ struct Document: Decodable {
     let publisher: String
     let thumbnail: String
     let title: String
+    let translators: [String]
+    let url: String
 
 
     enum CodingKeys: String, CodingKey {
@@ -31,6 +33,8 @@ struct Document: Decodable {
         case publisher
         case thumbnail
         case title
+        case translators
+        case url
     }
     
 }
@@ -40,7 +44,7 @@ struct Meta: Decodable {
     let pageableCount: Int
     let totalCount: Int
     
-    enum Codingkeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case isEnd = "is_end"
         case pageableCount = "pageable_count"
         case totalCount = "total_count"

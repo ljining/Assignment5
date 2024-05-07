@@ -28,13 +28,13 @@ class CoreDataManager {
     }
     
     
-    func createBookmark(title: String, author: String, price: Int, summary: String, bookcover: String) {
+    func createBookmark(title: String, authors: String, price: Int, summary: String, thumbnail: String) {
         let bookmark = Bookmark(context: context)
         bookmark.title = title
-        bookmark.author = author
+        bookmark.authors = authors
         bookmark.price = Int64(price)
         bookmark.summary = summary
-        bookmark.bookcover = bookcover
+        bookmark.thumbnail = thumbnail
         
         saveContext()
     }

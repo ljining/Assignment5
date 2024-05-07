@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class MainPageViewController: UIViewController {
     
@@ -15,6 +16,9 @@ class MainPageViewController: UIViewController {
     
     let topCollectionViewCell = TopCollectionViewCell()
     let bottomColletctionViewCell = BottomCollectionViewCell()
+    
+    let networkManager = NetworkManager.shared
+    var bookData: BookData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +33,6 @@ class MainPageViewController: UIViewController {
         setupSubtitleLabels()
         setupCollectionView()
         
-        bookSearch(query: "")
     }
     
 }
@@ -42,6 +45,7 @@ extension MainPageViewController: UISearchBarDelegate {
         let searchBar: UISearchBar = {
             
             let searchBar = UISearchBar()
+            searchBar.delegate = self
             searchBar.backgroundImage = UIImage()
             searchBar.searchTextField.backgroundColor = UIColor.white
             searchBar.layer.cornerRadius = 20
@@ -169,7 +173,7 @@ extension MainPageViewController {
         bottomCollectionView.snp.makeConstraints { make in
             make.top.equalTo(topCollectionView.snp.bottom).offset(67)
             make.leading.equalToSuperview().offset(27.5)
-            make.size.equalTo(CGSize(width: 393, height: 212))
+            make.size.equalTo(CGSize(width: 393, height: 230))
         }
     }
     
@@ -181,7 +185,7 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == topCollectionView {
             return 5
         } else {
-            return 5
+            return bookData?.documents.count ?? 0
         }
     }
     
@@ -191,6 +195,16 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as! BottomCollectionViewCell
+            
+            if let document = bookData?.documents[indexPath.item] {
+                cell.titleLabel.text = document.title
+                cell.priceLabel.text = "\(document.price)\("원")"
+                cell.authorLabel.text = document.authors.joined(separator: ", ")
+                
+                if let url = URL(string: document.thumbnail) {
+                    cell.bottomImageView.kf.setImage(with: url)
+                }
+            }
             return cell
         }
     }
@@ -213,32 +227,46 @@ extension MainPageViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: width, height: height)
         } else {
             let width: CGFloat = 123
-            let height: CGFloat = 212
+            let height: CGFloat = 230
             return CGSize(width: width, height: height)
         }
     }
 }
 
-// MARK: SearchBar Feature
+// MARK: - Data Networking
 
 extension MainPageViewController {
     
-    func bookSearch(query: String?) {
-    
-            guard let query = query, !query.isEmpty else {
-                print("search query")
-                return
-            }
-
-        NetworkManager.shared.fetchBookAPI(query: query) { result in
+    func fetchBookData(query: String?) {
+        networkManager.fetchBookAPI(query: query ?? "") { result in
             switch result {
-            case .success(let bookModel):
-                print("Book Model:", bookModel)
+            case .success(let bookData):
+                self.bookData = bookData
+                print("Book Data:", bookData)
+                
+                for document in bookData.documents {
+                    print(document.title)
+                    print(document.price)
+                    print(document.authors)
+                    print(document.thumbnail)
+                }
+                    
+                DispatchQueue.main.async {
+                    self.bottomCollectionView.reloadData()
+                }
             case .failure(let error):
                 print("Error:", error)
             }
         }
-        
     }
     
+}
+
+// MARK: - 검색어 전달
+extension MainPageViewController {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        fetchBookData(query: searchBar.text)
+        searchBar.resignFirstResponder()
+        print("text")
+    }
 }

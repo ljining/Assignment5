@@ -13,6 +13,9 @@ class BottomCollectionViewCell: UICollectionViewCell {
     static let identifier = String(describing: BottomCollectionViewCell.self)
     
     let bottomImageView = UIImageView()
+    let titleLabel = UILabel()
+    let priceLabel = UILabel()
+    let authorLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,11 +41,30 @@ extension BottomCollectionViewCell {
 
 // MARK: - BottomCollectionView Image UI
 extension BottomCollectionViewCell {
+    
     func setupImageView() {
+        
+        let shadowView: UIImageView = {
+            let view = UIImageView()
+            view.backgroundColor = .white
+            view.layer.cornerRadius = 10
+            view.layer.masksToBounds = false
+            
+            view.layer.shadowColor = UIColor.black.cgColor
+            view.layer.shadowOffset = CGSize(width: 3, height: 3)
+            view.layer.shadowOpacity = 0.1
+            view.layer.shadowRadius = 4
+            return view
+        }()
+        
+        shadowView.snp.makeConstraints { make in
+            make.width.equalTo(123)
+            make.height.equalTo(182)
+        }
         
         bottomImageView.backgroundColor = .myOrange
         bottomImageView.layer.cornerRadius = 10
-        bottomImageView.layer.masksToBounds = false
+        bottomImageView.layer.masksToBounds = true
         
         bottomImageView.layer.shadowColor = UIColor.black.cgColor
         bottomImageView.layer.shadowOffset = CGSize(width: 3, height: 3)
@@ -52,7 +74,8 @@ extension BottomCollectionViewCell {
         bottomImageView.snp.makeConstraints { make in
             make.width.equalTo(123)
             make.height.equalTo(182)
-            
+        
+        contentView.addSubview(shadowView)
             
         }
     }
@@ -70,50 +93,39 @@ extension BottomCollectionViewCell {
         
         let innerStackView1: UIStackView = {
             let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.spacing = 2
+            stackView.axis = .vertical
+            stackView.spacing = 1
             return stackView
         }()
         
         let innerStackView2: UIStackView = {
             let stackView = UIStackView()
             stackView.axis = .vertical
-            stackView.spacing = 1
+            stackView.spacing = 5
             return stackView
         }()
         
-        let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = "세이노의 가르침"
-            label.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
-            label.textColor = UIColor.myBlack
-            return label
-        }()
-        
-        let priceLabel: UILabel = {
-            let label = UILabel()
-            label.text = "14,000"
-            label.font = UIFont.systemFont(ofSize: 9, weight: .semibold)
-            label.textColor = UIColor.myBlack
-            return label
-        }()
-        
-        let authorLabel: UILabel = {
-            let label = UILabel()
-            label.text = "세이노"
-            label.font = UIFont.systemFont(ofSize: 9, weight: .semibold)
-            label.textColor = UIColor.myGray
-            return label
-        }()
-        
+        // titleLabel 설정
+        titleLabel.font = UIFont.systemFont(ofSize: 12, weight: .bold)
+        titleLabel.textColor = UIColor.myBlack
+
+        // priceLabel 설정
+        priceLabel.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
+        priceLabel.textColor = UIColor.myBlack
+
+        // authorLabel 설정
+        authorLabel.font = UIFont.systemFont(ofSize: 9, weight: .medium)
+        authorLabel.textColor = UIColor.myGray
+
+
         contentView.addSubview(outerStackView)
         outerStackView.addArrangedSubview(bottomImageView)
         outerStackView.addArrangedSubview(innerStackView2)
         
         innerStackView1.addArrangedSubview(titleLabel)
-        innerStackView1.addArrangedSubview(priceLabel)
+        innerStackView1.addArrangedSubview(authorLabel)
         innerStackView2.addArrangedSubview(innerStackView1)
-        innerStackView2.addArrangedSubview(authorLabel)
+        innerStackView2.addArrangedSubview(priceLabel)
         
         outerStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
