@@ -51,8 +51,8 @@ extension MainPageViewController: UISearchBarDelegate {
             
             if let textField = searchBar.value(forKey: "searchField") as? UITextField {
                 textField.leftView = nil
-                    textField.layer.cornerRadius = 20
-                    textField.clipsToBounds = true
+                textField.layer.cornerRadius = 20
+                textField.clipsToBounds = true
             }
             
             let iconImageView = UIImageView(image: UIImage(named: "search_icon"))
