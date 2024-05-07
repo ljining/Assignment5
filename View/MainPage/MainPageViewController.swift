@@ -28,6 +28,8 @@ class MainPageViewController: UIViewController {
         setupSearchBarUI()
         setupSubtitleLabels()
         setupCollectionView()
+        
+        bookSearch(query: "")
     }
     
 }
@@ -53,6 +55,9 @@ extension MainPageViewController: UISearchBarDelegate {
                 textField.leftView = nil
                 textField.layer.cornerRadius = 20
                 textField.clipsToBounds = true
+                
+                textField.leftViewMode = .always
+                    textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: textField.frame.height))
             }
             
             let iconImageView = UIImageView(image: UIImage(named: "search_icon"))
@@ -212,4 +217,28 @@ extension MainPageViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: width, height: height)
         }
     }
+}
+
+// MARK: SearchBar Feature
+
+extension MainPageViewController {
+    
+    func bookSearch(query: String?) {
+    
+            guard let query = query, !query.isEmpty else {
+                print("search query")
+                return
+            }
+
+        NetworkManager.shared.fetchBookAPI(query: query) { result in
+            switch result {
+            case .success(let bookModel):
+                print("Book Model:", bookModel)
+            case .failure(let error):
+                print("Error:", error)
+            }
+        }
+        
+    }
+    
 }
