@@ -17,7 +17,7 @@ class MainPageViewController: UIViewController {
     let topCollectionViewCell = TopCollectionViewCell()
     let bottomColletctionViewCell = BottomCollectionViewCell()
     
-    var bookData: BookData?
+    var bookData: [Document] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,7 +184,7 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == topCollectionView {
             return 5
         } else {
-            return bookData?.documents.count ?? 0
+            return bookData.count
         }
     }
     
@@ -195,7 +195,7 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as! BottomCollectionViewCell
             
-            if let bookData = bookData?.documents[indexPath.item] {
+            let bookData = bookData[indexPath.item]
                 cell.titleLabel.text = bookData.title
                 cell.priceLabel.text = "\(bookData.price)\("원")"
                 cell.authorLabel.text = bookData.authors.joined(separator: ", ")
@@ -203,7 +203,7 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
                 if let url = URL(string: bookData.thumbnail) {
                     cell.bottomImageView.kf.setImage(with: url)
                 }
-            }
+            
             return cell
         }
     }
@@ -214,20 +214,9 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         } else {
             if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
                 
-                if let bookData = bookData?.documents[indexPath.item] {
-                    
-                    bookInfoPage.bookData = self.bookData
-                    bookInfoPage.authorNameLabel.text = "\("저자: ") \(bookData.authors.joined(separator: ", "))"
-                    bookInfoPage.priceLabel.text = "\(String(describing: bookData.price))\("원")"
-                    bookInfoPage.summaryLabel.text = bookData.contents
-                    bookInfoPage.titleLabel.text = bookData.title
-                    
-                    
-                    if let url = URL(string: bookData.thumbnail) {
-                        bookInfoPage.backgroundImageView.kf.setImage(with: url)
-                        bookInfoPage.bookCoverImageView.kf.setImage(with: url)
-                    }
-                }
+                let selectedBookData = bookData[indexPath.item]
+                    bookInfoPage.bookData = selectedBookData
+                
                 tabBarController?.selectedIndex = 2
                 navigationController?.pushViewController(bookInfoPage, animated: true)
             }
@@ -258,8 +247,8 @@ extension MainPageViewController {
         NetworkManager.shared.fetchBookAPI(query: query ?? "") { result in
             switch result {
             case .success(let bookData):
-                self.bookData = BookData(documents: bookData.documents)
-                print("Book Data:", self.bookData)
+                self.bookData = bookData.documents
+                print("Book Data:", self.bookData as Any)
                 
                 for document in bookData.documents {
                     print(document.title)

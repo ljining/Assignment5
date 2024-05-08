@@ -10,7 +10,7 @@ import SnapKit
 
 class BookmarkPageViewController: UIViewController {
     
-    var bookData = BookData?
+    var bookData: BookData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
