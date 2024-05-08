@@ -10,6 +10,14 @@ import SnapKit
 
 class BookInfoPageViewController: UIViewController {
     
+    let backgroundImageView = UIImageView()
+    let titleLabel = UILabel()
+    let priceLabel = UILabel()
+    let bookCoverImageView = UIImageView()
+    let authorLabel = UILabel()
+    let authorNameLabel = UILabel()
+    let summaryLabel = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,12 +40,10 @@ extension BookInfoPageViewController {
     
     private func backgroundView() {
         
-        let backgroundImageView: UIImageView = {
-            let imageView = UIImageView(image: UIImage(named: "bookCover"))
-            imageView.contentMode = .scaleAspectFill
-            imageView.clipsToBounds = true
-            return imageView
-        }()
+
+        backgroundImageView.contentMode = .scaleAspectFill
+        backgroundImageView.clipsToBounds = true
+
         
         let blurEffect = UIBlurEffect(style: .dark)
         let blurView = UIVisualEffectView(effect: blurEffect)
@@ -116,29 +122,24 @@ extension BookInfoPageViewController {
     
     private func setupTopLabel() {
         
-        let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = "세이노의 가르침"
-            label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
-            label.textColor = UIColor.white
-            return label
-        }()
+        titleLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
+        titleLabel.textColor = UIColor.white
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 0
         
-        let priceLabel: UILabel = {
-            let label = UILabel()
-            label.text = "14,000원"
-            label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-            label.textColor = UIColor.white
-            return label
-        }()
+        priceLabel.font = UIFont.systemFont(ofSize: 13, weight: .regular)
+        priceLabel.textColor = UIColor.white
+        priceLabel.textAlignment = .center
+        
         
         [titleLabel, priceLabel].forEach {
             view.addSubview($0)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(144)
+            make.bottom.equalToSuperview().inset(682)
             make.centerX.equalToSuperview()
+            make.width.equalTo(219)
         }
         
         priceLabel.snp.makeConstraints { make in
@@ -152,13 +153,9 @@ extension BookInfoPageViewController {
     
     private func setupBookCover() {
         
-        let bookCoverImageView: UIImageView = {
-            let imageView = UIImageView(image: UIImage(named: "bookCover"))
-            imageView.contentMode = .scaleAspectFill
-            imageView.clipsToBounds = true
-            imageView.layer.cornerRadius = 10
-            return imageView
-        }()
+        bookCoverImageView.contentMode = .scaleAspectFill
+        bookCoverImageView.clipsToBounds = true
+        bookCoverImageView.layer.cornerRadius = 10
         
         view.addSubview(bookCoverImageView)
         
@@ -176,48 +173,18 @@ extension BookInfoPageViewController {
     
     private func setupAuthorLabel() {
         
-        let authorLabel: UILabel = {
-            let label = UILabel()
-            label.text = "저자: "
-            label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-            label.textColor = UIColor.white
-            label.shadowColor = UIColor.black
-            label.shadowOffset = CGSize(width: 0, height: 0)
-            label.layer.shadowOpacity = 0.1
-            label.layer.shadowRadius = 4
-            
-            label.setContentHuggingPriority(.required, for: .horizontal)
-            label.setContentCompressionResistancePriority(.required, for: .horizontal)
-            return label
-        }()
+        //
+        authorNameLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        authorNameLabel.textColor = UIColor.white
+        authorNameLabel.shadowColor = UIColor.black
+        authorNameLabel.shadowOffset = CGSize(width: 0, height: 0)
+        authorNameLabel.layer.shadowOpacity = 0.1
+        authorNameLabel.layer.shadowRadius = 4
         
-        let authorNameLabel: UILabel = {
-            let label = UILabel()
-            label.text = "세이노"
-            label.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
-            label.textColor = UIColor.white
-            label.shadowColor = UIColor.black
-            label.shadowOffset = CGSize(width: 0, height: 0)
-            label.layer.shadowOpacity = 0.1
-            label.layer.shadowRadius = 4
-            return label
-        }()
+        view.addSubview(authorNameLabel)
         
-        let authorStackView: UIStackView = {
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.spacing = 0
-            return stackView
-        }()
-        
-        view.addSubview(authorStackView)
-        
-        [authorLabel, authorNameLabel].forEach {
-            authorStackView.addArrangedSubview($0)
-        }
-        
-        authorStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(592)
+        authorNameLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(575)
             make.leading.equalToSuperview().offset(56.5)
             make.trailing.equalToSuperview().inset(56.5)
         }
@@ -233,35 +200,30 @@ extension BookInfoPageViewController {
             return scrollView
         }()
         
-        let summaryLabel: UILabel = {
-            let label = UILabel()
-            label.text = "*필명 ‘세이노(Say No)’는 당신이 믿고 있는 것들에 ‘No!’를 외치고 제대로 살아가라는 뜻이다. 세이노는 지난 20여 년간 여러 칼럼을 통해 인생 선배로서 부와 성공에 대한 지혜와 함께 삶에 대한 체험적 지식을 나누어 주었다. 그래서 그의 글을 좋아하는 사람들은 그를 ‘세이노 스승님’이라 부른다. *필명 ‘세이노(Say No)’는 당신이 믿고 있는 것들에 ‘No!’를 외치고 제대로 살아가라는 뜻이다. 세이노는 지난 20여 년간 여러 칼럼을 통해 인생 선배로서 부와 성공에 대한 지혜와 함께 삶에 대한 체험적 지식을 나누어 주었다. 그래서 그의 글을 좋아하는 사람들은 그를 ‘세이노 스승님’이라 부른다."
-            label.numberOfLines = 0
-            label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
-            label.textColor = UIColor.white
-            label.shadowColor = UIColor.black
-            label.shadowOffset = CGSize(width: 0, height: 0)
-            label.layer.shadowOpacity = 0.1
-            label.layer.shadowRadius = 4
-            
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 4 // 원하는 줄 간격으로 설정
-            
-            // Attributed Text 설정
-            let attributedString = NSAttributedString(string: label.text ?? "", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
-            label.attributedText = attributedString
-            
-            return label
-        }()
+        summaryLabel.numberOfLines = 0
+        summaryLabel.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        summaryLabel.textColor = UIColor.white
+        summaryLabel.shadowColor = UIColor.black
+        summaryLabel.shadowOffset = CGSize(width: 0, height: 0)
+        summaryLabel.layer.shadowOpacity = 0.1
+        summaryLabel.layer.shadowRadius = 4
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4 // 원하는 줄 간격으로 설정
+        
+        // Attributed Text 설정
+        let attributedString = NSAttributedString(string: summaryLabel.text ?? "", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+        summaryLabel.attributedText = attributedString
+        
         
         view.addSubview(summaryScroll)
         summaryScroll.addSubview(summaryLabel)
         
         summaryScroll.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(615)
+            make.top.equalToSuperview().offset(600)
             make.leading.equalToSuperview().offset(56.5)
             make.trailing.equalToSuperview().inset(56.5)
-            make.height.equalTo(79)
+            make.height.equalTo(80)
             make.width.equalTo(280)
         }
         

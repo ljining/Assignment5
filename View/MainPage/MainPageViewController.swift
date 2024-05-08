@@ -17,7 +17,6 @@ class MainPageViewController: UIViewController {
     let topCollectionViewCell = TopCollectionViewCell()
     let bottomColletctionViewCell = BottomCollectionViewCell()
     
-    let networkManager = NetworkManager.shared
     var bookData: BookData?
     
     override func viewDidLoad() {
@@ -196,12 +195,12 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as! BottomCollectionViewCell
             
-            if let document = bookData?.documents[indexPath.item] {
-                cell.titleLabel.text = document.title
-                cell.priceLabel.text = "\(document.price)\("원")"
-                cell.authorLabel.text = document.authors.joined(separator: ", ")
+            if let bookData = bookData?.documents[indexPath.item] {
+                cell.titleLabel.text = bookData.title
+                cell.priceLabel.text = "\(bookData.price)\("원")"
+                cell.authorLabel.text = bookData.authors.joined(separator: ", ")
                 
-                if let url = URL(string: document.thumbnail) {
+                if let url = URL(string: bookData.thumbnail) {
                     cell.bottomImageView.kf.setImage(with: url)
                 }
             }
@@ -213,10 +212,26 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == topCollectionView {
             tabBarController?.selectedIndex = 2
         } else {
-            tabBarController?.selectedIndex = 2
+            if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
+                
+                if let bookData = bookData?.documents[indexPath.item] {
+                    bookInfoPage.authorNameLabel.text = "\("저자: ") \(bookData.authors.joined(separator: ", "))"
+                    bookInfoPage.priceLabel.text = "\(String(describing: bookData.price))\("원")"
+                    bookInfoPage.summaryLabel.text = bookData.contents
+                    bookInfoPage.titleLabel.text = bookData.title
+                    
+                    
+                    if let url = URL(string: bookData.thumbnail) {
+                        bookInfoPage.backgroundImageView.kf.setImage(with: url)
+                        bookInfoPage.bookCoverImageView.kf.setImage(with: url)
+                    }
+                }
+                tabBarController?.selectedIndex = 2
+                navigationController?.pushViewController(bookInfoPage, animated: true)
+            }
         }
+        
     }
-    
 }
 
 extension MainPageViewController: UICollectionViewDelegateFlowLayout {
@@ -238,7 +253,7 @@ extension MainPageViewController: UICollectionViewDelegateFlowLayout {
 extension MainPageViewController {
     
     func fetchBookData(query: String?) {
-        networkManager.fetchBookAPI(query: query ?? "") { result in
+        NetworkManager.shared.fetchBookAPI(query: query ?? "") { result in
             switch result {
             case .success(let bookData):
                 self.bookData = bookData
