@@ -9,8 +9,8 @@ import CoreData
 import UIKit
 
 class CoreDataManager {
-    static let shared = CoreDataManager()
     
+    static let shared = CoreDataManager()
     private init() {}
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -27,19 +27,20 @@ class CoreDataManager {
         return persistentContainer.viewContext
     }
     
-    
-    func createBookmark(title: String, authors: String, price: Int, summary: String, thumbnail: String) {
+    // Create 코어 데이터에 새로운 책 정보 추가
+    func createBookmark(bookData: BookData) {
         let bookmark = Bookmark(context: context)
-        bookmark.title = title
-        bookmark.authors = authors
-        bookmark.price = Int64(price)
-        bookmark.summary = summary
-        bookmark.thumbnail = thumbnail
+        bookmark.title = bookData.documents[0].title
+        bookmark.authors = bookData.documents[0].authors.joined(separator: ", ")
+        bookmark.price = Int64(bookData.documents[0].price)
+        bookmark.summary = bookData.documents[0].contents
+        bookmark.thumbnail = bookData.documents[0].thumbnail
         
         saveContext()
     }
     
-    func fetchBookmark() -> [Bookmark] {
+    // Read 코어 데이터로부터 책 정보 가져옴
+    func readBookmark() -> [Bookmark] {
         let fetchRequest: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
         do {
             return try context.fetch(fetchRequest)
@@ -49,12 +50,8 @@ class CoreDataManager {
         }
     }
     
-    func deleteBook(bookmark: Bookmark) {
-        context.delete(bookmark)
-        saveContext()
-    }
-    
-    private func saveContext() {
+    // Update 코어 데이터 변경 사항 저장
+    func saveContext() {
         if context.hasChanges {
             do {
                 try context.save()
@@ -64,5 +61,12 @@ class CoreDataManager {
             }
         }
     }
+    
+    // Delete 코어 데이터에서 책 정보 삭제
+    func deleteBookmark(bookmark: Bookmark) {
+        context.delete(bookmark)
+        saveContext()
+    }
+
     
 }

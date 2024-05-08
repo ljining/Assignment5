@@ -215,6 +215,8 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
             if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
                 
                 if let bookData = bookData?.documents[indexPath.item] {
+                    
+                    bookInfoPage.bookData = self.bookData
                     bookInfoPage.authorNameLabel.text = "\("저자: ") \(bookData.authors.joined(separator: ", "))"
                     bookInfoPage.priceLabel.text = "\(String(describing: bookData.price))\("원")"
                     bookInfoPage.summaryLabel.text = bookData.contents
@@ -256,8 +258,8 @@ extension MainPageViewController {
         NetworkManager.shared.fetchBookAPI(query: query ?? "") { result in
             switch result {
             case .success(let bookData):
-                self.bookData = bookData
-                print("Book Data:", bookData)
+                self.bookData = BookData(documents: bookData.documents)
+                print("Book Data:", self.bookData)
                 
                 for document in bookData.documents {
                     print(document.title)

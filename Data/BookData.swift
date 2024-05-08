@@ -10,7 +10,7 @@ import Foundation
 struct BookData: Decodable {
     
     let documents: [Document]
-    let meta: Meta
+
 }
 
 

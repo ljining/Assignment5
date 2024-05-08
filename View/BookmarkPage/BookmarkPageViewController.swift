@@ -10,6 +10,8 @@ import SnapKit
 
 class BookmarkPageViewController: UIViewController {
     
+    var bookData = BookData?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -119,5 +121,3 @@ extension BookmarkPageViewController: UICollectionViewDelegateFlowLayout {
             return CGSize(width: width, height: height)
     }
 }
-
-
