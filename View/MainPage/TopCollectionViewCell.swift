@@ -29,7 +29,7 @@ class TopCollectionViewCell: UICollectionViewCell {
 
 extension TopCollectionViewCell {
     
-    func setupImageView() {
+    private func setupImageView() {
         
         let shadowView: UIImageView = {
             let view = UIImageView()
@@ -63,6 +63,7 @@ extension TopCollectionViewCell {
             make.height.equalTo(182)
         
         contentView.addSubview(shadowView)
+        contentView.addSubview(topImageView)
             
         }
     }

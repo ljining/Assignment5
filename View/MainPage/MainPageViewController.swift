@@ -19,12 +19,14 @@ class MainPageViewController: UIViewController {
     
     var bookData: [Document] = []
     var selectedBookData: Document?
+    var selectedBookDatas: [Document] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
+    
         [topCollectionView, bottomCollectionView].forEach {
             view.addSubview($0)
         }
@@ -183,7 +185,7 @@ extension MainPageViewController {
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == topCollectionView {
-            return 10
+            return selectedBookDatas.count
         } else {
             return bookData.count
         }
@@ -193,23 +195,24 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == topCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as! TopCollectionViewCell
             
-//            if let selectedBookData = selectedBookData, let url = URL(string: selectedBookData.thumbnail) {
-//                cell.topImageView.kf.setImage(with: url)
-//                print("update", selectedBookData)
-//            }
-            print("update")
+            let selectedBookData = selectedBookDatas[indexPath.row]
+            if let url = URL(string: selectedBookData.thumbnail) {
+                cell.topImageView.kf.setImage(with: url)
+            }
+            topCollectionView.reloadData()
+            
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as! BottomCollectionViewCell
             
             let bookData = bookData[indexPath.item]
-                cell.titleLabel.text = bookData.title
-                cell.priceLabel.text = "\(bookData.price)\("원")"
-                cell.authorLabel.text = bookData.authors.joined(separator: ", ")
-                
-                if let url = URL(string: bookData.thumbnail) {
-                    cell.bottomImageView.kf.setImage(with: url)
-                }
+            cell.titleLabel.text = bookData.title
+            cell.priceLabel.text = "\(bookData.price)\("원")"
+            cell.authorLabel.text = bookData.authors.joined(separator: ", ")
+            
+            if let url = URL(string: bookData.thumbnail) {
+                cell.bottomImageView.kf.setImage(with: url)
+            }
             
             return cell
         }
@@ -219,20 +222,24 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == topCollectionView {
             tabBarController?.selectedIndex = 2
         } else {
-//            if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
+            if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
                 
                 selectedBookData = bookData[indexPath.item]
+                bookInfoPage.bookData = selectedBookData
+            
+                selectedBookDatas.append(selectedBookData!)
                 topCollectionView.reloadData()
-
-//                bookInfoPage.bookData = selectedBookData
-//                print(selectedBookData)
-//                tabBarController?.selectedIndex = 2
-//                navigationController?.pushViewController(bookInfoPage, animated: true)
-//            }
+                print(selectedBookData ?? "")
+                
+                tabBarController?.selectedIndex = 2
+                navigationController?.pushViewController(bookInfoPage, animated: true)
+            }
+            return
         }
         
     }
 }
+
 
 extension MainPageViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
