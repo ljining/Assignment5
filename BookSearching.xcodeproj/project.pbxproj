@@ -130,7 +130,6 @@
 				6A34B40A2BE1CBEE0035D008 /* Assets.xcassets */,
 				6A34B40C2BE1CBEE0035D008 /* LaunchScreen.storyboard */,
 				6A34B40F2BE1CBEE0035D008 /* Info.plist */,
-				6A34B4072BE1CBED0035D008 /* BookSearching.xcdatamodeld */,
 			);
 			path = BookSearching;
 			sourceTree = "<group>";
@@ -148,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				6A8EA5EA2BE9D994004AF05D /* BookData.swift */,
+				6A34B4072BE1CBED0035D008 /* BookSearching.xcdatamodeld */,
 			);
 			path = Data;
 			sourceTree = "<group>";

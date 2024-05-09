@@ -100,16 +100,36 @@ extension BookmarkPageViewController {
 // MARK: - CollectionView DataSource/Delegate
 extension BookmarkPageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 15
+        return CoreDataManager.shared.readBookmark().count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BookmarkListCollectionViewCell.identifier, for: indexPath) as! BookmarkListCollectionViewCell
+        
+        let bookData = CoreDataManager.shared.readBookmark()[indexPath.item]
+        
+        cell.titleLabel.text = bookData.title
+        cell.authorLabel.text = bookData.authors
+        cell.priceLabel.text = "\(bookData.price)\("원")"
+        
+        if let url = URL(string: bookData.thumbnail ?? "") {
+            cell.bookcoverImageView.kf.setImage(with: url)
+        }
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        tabBarController?.selectedIndex = 2
+        if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
+            
+            let selectedBookData = CoreDataManager.shared.readBookmark()[indexPath.item]
+            if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
+                
+            }
+            
+            tabBarController?.selectedIndex = 2
+            navigationController?.pushViewController(bookInfoPage, animated: true)
+        }
     }
 }
 

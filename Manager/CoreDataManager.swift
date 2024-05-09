@@ -33,7 +33,7 @@ class CoreDataManager {
         bookmark.title = bookData.documents[0].title
         bookmark.authors = bookData.documents[0].authors.joined(separator: ", ")
         bookmark.price = Int64(bookData.documents[0].price)
-        bookmark.summary = bookData.documents[0].contents
+        bookmark.contents = bookData.documents[0].contents
         bookmark.thumbnail = bookData.documents[0].thumbnail
         
         saveContext()

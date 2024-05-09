@@ -12,6 +12,14 @@ class BookmarkListCollectionViewCell: UICollectionViewCell {
     
     static let identifier = String(describing: BookmarkListCollectionViewCell.self)
     
+    let bookcoverImageView = UIImageView()
+    let titleLabel = UILabel()
+    let authorLabel = UILabel()
+    let priceLabel = UILabel()
+    let bookmarkButton = UIButton()
+    
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -51,47 +59,28 @@ extension BookmarkListCollectionViewCell {
             return view
         }()
         
-        let bookcoverImageView: UIImageView = {
-            let imageView = UIImageView(image: UIImage(named: "bookCover"))
-            imageView.contentMode = .scaleAspectFill
-            imageView.layer.cornerRadius = 10
-            imageView.clipsToBounds = true
-            return imageView
-        }()
+        bookcoverImageView.contentMode = .scaleAspectFill
+        bookcoverImageView.layer.cornerRadius = 10
+        bookcoverImageView.clipsToBounds = true
         
-        let titleLabel: UILabel = {
-            let label = UILabel()
-            label.text = "세이노의 가르침"
-            label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-            label.textColor = UIColor.myBlack
-            return label
-        }()
+        titleLabel.text = "세이노의 가르침"
+        titleLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        titleLabel.textColor = UIColor.myBlack
         
-        let authorLabel: UILabel = {
-            let label = UILabel()
-            label.text = "저자: 세이노"
-            label.font = UIFont.systemFont(ofSize: 9, weight: .bold)
-            label.textColor = UIColor.myBlack
-            return label
-        }()
+        authorLabel.text = "저자: 세이노"
+        authorLabel.font = UIFont.systemFont(ofSize: 9, weight: .bold)
+        authorLabel.textColor = UIColor.myBlack
         
-        let priceabel: UILabel = {
-            let label = UILabel()
-            label.text = "14,000원"
-            label.font = UIFont.systemFont(ofSize: 11, weight: .regular)
-            label.textColor = UIColor.myBlack
-            return label
-        }()
+        priceLabel.text = "14,000원"
+        priceLabel.font = UIFont.systemFont(ofSize: 11, weight: .regular)
+        priceLabel.textColor = UIColor.myBlack
         
-        let bookmarkButton: UIButton = {
-            let button = UIButton()
-            button.setImage(UIImage(named: "tap1_selected"), for: .normal)
-            button.setImage(UIImage(named: "bookMark"), for: .selected)
-            button.addTarget(self, action: #selector(bookMarkButtonTapped(_:)), for: .touchUpInside)
-            return button
-        }()
         
-        [shadowView, bookcoverImageView, titleLabel, authorLabel, priceabel, bookmarkButton].forEach {
+        bookmarkButton.setImage(UIImage(named: "tap1_selected"), for: .normal)
+        bookmarkButton.setImage(UIImage(named: "bookMark"), for: .selected)
+        bookmarkButton.addTarget(self, action: #selector(bookMarkButtonTapped(_:)), for: .touchUpInside)
+        
+        [shadowView, bookcoverImageView, titleLabel, authorLabel, priceLabel, bookmarkButton].forEach {
             contentView.addSubview($0)
         }
         
@@ -120,7 +109,7 @@ extension BookmarkListCollectionViewCell {
             make.leading.trailing.equalTo(titleLabel)
         }
         
-        priceabel.snp.makeConstraints { make in
+        priceLabel.snp.makeConstraints { make in
             make.top.equalTo(authorLabel.snp.bottom).offset(10)
             make.leading.equalTo(titleLabel)
             make.trailing.equalTo(titleLabel)
