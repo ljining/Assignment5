@@ -18,7 +18,9 @@ class BookmarkListCollectionViewCell: UICollectionViewCell {
     let priceLabel = UILabel()
     let bookmarkButton = UIButton()
     
-    
+    var bookData: Document?
+    var bookmarkButtonTappedHandler: (() -> Void)?
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -78,7 +80,7 @@ extension BookmarkListCollectionViewCell {
         
         bookmarkButton.setImage(UIImage(named: "tap1_selected"), for: .normal)
         bookmarkButton.setImage(UIImage(named: "bookMark"), for: .selected)
-        bookmarkButton.addTarget(self, action: #selector(bookMarkButtonTapped(_:)), for: .touchUpInside)
+        bookmarkButton.addTarget(self, action: #selector(bookmarkButtonTapped(_:)), for: .touchUpInside)
         
         [shadowView, bookcoverImageView, titleLabel, authorLabel, priceLabel, bookmarkButton].forEach {
             contentView.addSubview($0)
@@ -123,8 +125,8 @@ extension BookmarkListCollectionViewCell {
         
     }
     
-    // 버튼 탭 이벤트 핸들러
-    @objc func bookMarkButtonTapped(_ sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-    }
+    @objc private func bookmarkButtonTapped(_ sender: UIButton) {
+        bookmarkButtonTappedHandler?()
+        }
 }
+

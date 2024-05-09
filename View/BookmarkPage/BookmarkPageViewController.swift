@@ -10,6 +10,7 @@ import SnapKit
 
 class BookmarkPageViewController: UIViewController {
     
+    var bookListCollectionView: UICollectionView!
     var bookData: BookData?
     
     override func viewDidLoad() {
@@ -18,7 +19,7 @@ class BookmarkPageViewController: UIViewController {
         view.backgroundColor = .white
         
         setupButtons()
-        bookList()
+        setupbookList()
         
     }
     
@@ -40,6 +41,7 @@ extension BookmarkPageViewController {
             button.setTitle("전체 삭제", for: .normal)
             button.setTitleColor(UIColor.myGray2, for: .normal)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+            button.addTarget(self, action: #selector(handleAllDelete), for: .touchUpInside)
             return button
         }()
         
@@ -48,6 +50,7 @@ extension BookmarkPageViewController {
             button.setTitle("추가", for: .normal)
             button.setTitleColor(UIColor.myOrange, for: .normal)
             button.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+            button.addTarget(self, action: #selector(handleAdd), for: .touchUpInside)
             return button
         }()
         
@@ -63,25 +66,35 @@ extension BookmarkPageViewController {
         }
     }
     
+    // All Delete Button
+       @objc private func handleAllDelete() {
+           CoreDataManager.shared.deleteAllBookmarks()
+           print("Deleted")
+           
+           bookListCollectionView.reloadData()
+       }
+    // Add Button
+    @objc private func handleAdd() {
+        tabBarController?.selectedIndex = 1
+        print("Turned to MainPage")
+    }
+    
 }
 
 // MARK: - BookList UI
 extension BookmarkPageViewController {
     
-    private func bookList() {
+    private func setupbookList() {
         
-        let bookListCollectionView: UICollectionView = {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .vertical
-            
-            let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.indicatorStyle = .default
-            collectionView.dataSource = self
-            collectionView.delegate = self
-            collectionView.register(BookmarkListCollectionViewCell.self, forCellWithReuseIdentifier: "BookmarkListCollectionViewCell")
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        
+        bookListCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        bookListCollectionView.indicatorStyle = .default
+        bookListCollectionView.dataSource = self
+        bookListCollectionView.delegate = self
+        bookListCollectionView.register(BookmarkListCollectionViewCell.self, forCellWithReuseIdentifier: "BookmarkListCollectionViewCell")
 
-            return collectionView
-        }()
       
         view.addSubview(bookListCollectionView)
         
@@ -116,16 +129,16 @@ extension BookmarkPageViewController: UICollectionViewDataSource, UICollectionVi
             cell.bookcoverImageView.kf.setImage(with: url)
         }
         
+        cell.bookmarkButtonTappedHandler = { [weak self] in
+        
+            
+        }
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
-            
-            let selectedBookData = CoreDataManager.shared.readBookmark()[indexPath.item]
-            if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
-                
-            }
             
             tabBarController?.selectedIndex = 2
             navigationController?.pushViewController(bookInfoPage, animated: true)

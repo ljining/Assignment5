@@ -67,6 +67,20 @@ class CoreDataManager {
         context.delete(bookmark)
         saveContext()
     }
+    
+    
+    func deleteAllBookmarks() {
+            let fetchRequest: NSFetchRequest<Bookmark> = Bookmark.fetchRequest()
+            do {
+                let bookmarks = try context.fetch(fetchRequest)
+                for bookmark in bookmarks {
+                    context.delete(bookmark)
+                }
+                saveContext()
+            } catch {
+                print("Error deleting bookmarks: \(error)")
+            }
+        }
 
     
 }

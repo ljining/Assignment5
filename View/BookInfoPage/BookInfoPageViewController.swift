@@ -141,6 +141,15 @@ extension BookInfoPageViewController {
         for bookmark in allBookmarks {
             print("- Title: \(String(describing: bookmark.title)), Author: \(String(describing: bookmark.authors))")
         }
+        
+        updateBookmarkCollectionView()
+        
+    }
+    
+    func updateBookmarkCollectionView() {
+        if let bookmarkVC = tabBarController?.viewControllers?[0] as? BookmarkPageViewController {
+            bookmarkVC.bookListCollectionView.reloadData()
+        }
     }
 
 
