@@ -67,12 +67,12 @@ extension BookmarkPageViewController {
     }
     
     // All Delete Button
-       @objc private func handleAllDelete() {
-           CoreDataManager.shared.deleteAllBookmarks()
-           print("Deleted")
-           
-           bookListCollectionView.reloadData()
-       }
+    @objc private func handleAllDelete() {
+        CoreDataManager.shared.deleteAllBookmarks()
+        print("Deleted")
+        
+        bookListCollectionView.reloadData()
+    }
     // Add Button
     @objc private func handleAdd() {
         tabBarController?.selectedIndex = 1
@@ -94,8 +94,8 @@ extension BookmarkPageViewController {
         bookListCollectionView.dataSource = self
         bookListCollectionView.delegate = self
         bookListCollectionView.register(BookmarkListCollectionViewCell.self, forCellWithReuseIdentifier: "BookmarkListCollectionViewCell")
-
-      
+        
+        
         view.addSubview(bookListCollectionView)
         
         bookListCollectionView.snp.makeConstraints { make in
@@ -129,28 +129,58 @@ extension BookmarkPageViewController: UICollectionViewDataSource, UICollectionVi
             cell.bookcoverImageView.kf.setImage(with: url)
         }
         
+        // BookmarkButton 탭, 저장 & 삭제
         cell.bookmarkButtonTappedHandler = { [weak self] in
-        
-            
+            guard let self = self else { return }
+            if cell.bookmarkButton.isSelected == false {
+                self.showDeleteConfirmationAlert(at: indexPath)
+            } else {
+                print("Why")
+            }
         }
+        
+        cell.configureBookmarkButton()
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
-            
             tabBarController?.selectedIndex = 2
             navigationController?.pushViewController(bookInfoPage, animated: true)
         }
     }
+    
+    private func showDeleteConfirmationAlert(at indexPath: IndexPath) {
+        
+        let existingBookmarks = CoreDataManager.shared.readBookmark()
+        let bookmarkToDelete = existingBookmarks[indexPath.item]
+        
+        let alertController = UIAlertController(title: "", message: "이 책을 목록에서 삭제하시겠습니까?", preferredStyle: .alert)
+        
+        let deleteAction = UIAlertAction(title: "삭제", style: .default) { _ in
+            
+            CoreDataManager.shared.deleteBookmark(bookmark: bookmarkToDelete)
+            print("Delete")
+            self.bookListCollectionView.reloadData()
+        }
+        
+        alertController.addAction(deleteAction)
+        
+        let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+        
+    }
+    
 }
 
 // MARK: - CollectionView FlowLayout
 extension BookmarkPageViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            let width: CGFloat = 393
-            let height: CGFloat = 182
-            return CGSize(width: width, height: height)
+        let width: CGFloat = 393
+        let height: CGFloat = 182
+        return CGSize(width: width, height: height)
     }
 }
