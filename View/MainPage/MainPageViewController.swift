@@ -33,8 +33,6 @@ class MainPageViewController: UIViewController {
         setupSubtitleLabels()
         setupCollectionView()
         
-        print("NewView")
-        
     }
     
 }
@@ -195,10 +193,11 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == topCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as! TopCollectionViewCell
             
-            if let selectedBookData = selectedBookData, let url = URL(string: selectedBookData.thumbnail) {
-                cell.topImageView.kf.setImage(with: url)
-                print("update", selectedBookData)
-            }
+//            if let selectedBookData = selectedBookData, let url = URL(string: selectedBookData.thumbnail) {
+//                cell.topImageView.kf.setImage(with: url)
+//                print("update", selectedBookData)
+//            }
+            print("update")
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as! BottomCollectionViewCell
@@ -220,15 +219,16 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         if collectionView == topCollectionView {
             tabBarController?.selectedIndex = 2
         } else {
-            if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
+//            if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
                 
                 selectedBookData = bookData[indexPath.item]
                 topCollectionView.reloadData()
 
-                bookInfoPage.bookData = selectedBookData
-                tabBarController?.selectedIndex = 2
-                navigationController?.pushViewController(bookInfoPage, animated: true)
-            }
+//                bookInfoPage.bookData = selectedBookData
+//                print(selectedBookData)
+//                tabBarController?.selectedIndex = 2
+//                navigationController?.pushViewController(bookInfoPage, animated: true)
+//            }
         }
         
     }

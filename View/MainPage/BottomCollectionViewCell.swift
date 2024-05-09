@@ -58,8 +58,8 @@ extension BottomCollectionViewCell {
         }()
         
         shadowView.snp.makeConstraints { make in
-            make.width.equalTo(123)
-            make.height.equalTo(182)
+//            make.width.equalTo(123)
+//            make.height.equalTo(182)
         }
         
         bottomImageView.backgroundColor = .myOrange
@@ -72,9 +72,9 @@ extension BottomCollectionViewCell {
         bottomImageView.layer.shadowRadius = 4
         
         bottomImageView.snp.makeConstraints { make in
-            make.width.equalTo(123)
-            make.height.equalTo(182)
-        
+//            make.width.equalTo(123)
+//            make.height.equalTo(182)
+//        
         contentView.addSubview(shadowView)
             
         }
@@ -129,17 +129,6 @@ extension BottomCollectionViewCell {
         
         outerStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
-        }
-        
-        innerStackView1.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(2) // 원하는 왼쪽 간격 설정
-            make.trailing.equalToSuperview().inset(3) // 원하는 오른쪽 간격 설정
-        }
-        
-        innerStackView2.snp.makeConstraints { make in
-            make.top.equalTo(bottomImageView.snp.bottom).offset(7)
-            make.leading.equalToSuperview().offset(2) // 원하는 왼쪽 간격 설정
-            make.trailing.equalToSuperview().inset(3) // 원하는 오른쪽 간격 설정
         }
         
     }
