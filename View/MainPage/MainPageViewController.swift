@@ -18,6 +18,7 @@ class MainPageViewController: UIViewController {
     let bottomColletctionViewCell = BottomCollectionViewCell()
     
     var bookData: [Document] = []
+    var selectedBookData: Document?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,8 @@ class MainPageViewController: UIViewController {
         setupSearchBarUI()
         setupSubtitleLabels()
         setupCollectionView()
+        
+        print("NewView")
         
     }
     
@@ -182,7 +185,7 @@ extension MainPageViewController {
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == topCollectionView {
-            return 5
+            return 10
         } else {
             return bookData.count
         }
@@ -191,6 +194,11 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == topCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TopCollectionViewCell.identifier, for: indexPath) as! TopCollectionViewCell
+            
+            if let selectedBookData = selectedBookData, let url = URL(string: selectedBookData.thumbnail) {
+                cell.topImageView.kf.setImage(with: url)
+                print("update", selectedBookData)
+            }
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BottomCollectionViewCell.identifier, for: indexPath) as! BottomCollectionViewCell
@@ -214,9 +222,10 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
         } else {
             if let bookInfoPage = tabBarController?.viewControllers?[2] as? BookInfoPageViewController {
                 
-                let selectedBookData = bookData[indexPath.item]
-                    bookInfoPage.bookData = selectedBookData
-                
+                selectedBookData = bookData[indexPath.item]
+                topCollectionView.reloadData()
+
+                bookInfoPage.bookData = selectedBookData
                 tabBarController?.selectedIndex = 2
                 navigationController?.pushViewController(bookInfoPage, animated: true)
             }
