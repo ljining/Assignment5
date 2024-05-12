@@ -185,7 +185,7 @@ extension MainPageViewController {
 extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == topCollectionView {
-            return selectedBookDatas.count
+            return min(selectedBookDatas.count, 10)
         } else {
             return bookData.count
         }
@@ -227,7 +227,7 @@ extension MainPageViewController: UICollectionViewDelegate, UICollectionViewData
                 selectedBookData = bookData[indexPath.item]
                 bookInfoPage.bookData = selectedBookData
             
-                selectedBookDatas.append(selectedBookData!)
+                selectedBookDatas.insert(selectedBookData!, at: 0)
                 topCollectionView.reloadData()
                 print(selectedBookData ?? "")
                 
